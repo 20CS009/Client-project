@@ -44,9 +44,7 @@ public class ClientController {
 
 
 
-    /**
-     * Updates an existing client.
-     */
+    /*** Updates an existing client.*/
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ClientEntity>> updateClient(
             @PathVariable Long id,
@@ -57,9 +55,7 @@ public class ClientController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Deletes an existing client.
-     */
+    /*** Deletes an existing client.*/
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteClient(
             @PathVariable Long id,
@@ -68,4 +64,5 @@ public class ClientController {
         ApiResponse<String> response = clientService.deleteClient(id, currentUser);
         return ResponseEntity.ok(response);
     }
+
 }
