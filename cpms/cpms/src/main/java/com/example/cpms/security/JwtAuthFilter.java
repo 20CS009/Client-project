@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             token = authHeader.substring(7);
             try {
                 username = jwtUtil.extractEmail(token);
-            } catch (Exception e) {
+            } catch (Exception e) {   
                 // Invalid token
             }
         }
@@ -55,4 +55,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }
