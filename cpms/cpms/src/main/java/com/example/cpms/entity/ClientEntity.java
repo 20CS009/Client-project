@@ -8,8 +8,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "clients")
-@Getter  // ✅ Generates all getters
-@Setter  // ✅ Generates all setters
+@Getter  
+@Setter  
 public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +31,5 @@ public class ClientEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
 }
