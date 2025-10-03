@@ -13,6 +13,7 @@ import com.example.cpms.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class ClientService {
      * @param user    The currently authenticated user.
      * @return ApiResponse containing the saved client or an error message.
      */
+    @Transactional
     public ApiResponse<ClientResponseDto> addClient(ClientRequest request, UserEntity user) {
         try {
             ClientEntity client = new ClientEntity();

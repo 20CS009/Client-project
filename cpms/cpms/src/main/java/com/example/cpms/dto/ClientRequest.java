@@ -8,6 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ClientRequest {
+
+    private Long userId;
+
     @NotBlank(message = "Client name is required")
     private String name;
 

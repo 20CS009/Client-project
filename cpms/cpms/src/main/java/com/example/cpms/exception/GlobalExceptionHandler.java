@@ -61,37 +61,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ApiResponse.error(ex.getMessage()), HttpStatus.FORBIDDEN);
     }
 
-    /**
-     * Handles generic RuntimeExceptions that are not specifically caught above.
-     * This acts as a fallback for unexpected errors within the application logic.
-     * Maps to HTTP 400 Bad Request.
-     *
-     * @param ex The RuntimeException that was thrown.
-     * @return ResponseEntity with an ApiResponse error structure.
-     */
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse<String>> handleRuntimeException(RuntimeException ex) {
-        // Log the exception for debugging (consider using a logger like SLF4J in a real app)
-        // logger.error("Unhandled RuntimeException: ", ex);
-
-        // Returns 400 Bad Request for unhandled runtime issues
-        return new ResponseEntity<>(ApiResponse.error("Bad Request: " + ex.getMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(ResourceException.class)
+    public ResponseEntity<ApiResponse<String>> handleAccessDenied(ResourceException ex) {
+        return new ResponseEntity<>(ApiResponse.error(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Handles all other generic Exceptions.
-     * This is the ultimate fallback for any unforeseen errors.
-     * Maps to HTTP 500 Internal Server Error.
-     *
-     * @param ex The Exception that was thrown.
-     * @return ResponseEntity with a generic error message.
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<String>> handleGenericException(Exception ex) {
-        // Log the exception for debugging (consider using a logger like SLF4J in a real app)
-        // logger.error("Unhandled Exception: ", ex);
-
-        // Returns 500 Internal Server Error for truly unexpected issues
-        return new ResponseEntity<>(ApiResponse.error("Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }

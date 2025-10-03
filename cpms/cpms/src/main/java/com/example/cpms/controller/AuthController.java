@@ -2,11 +2,13 @@ package com.example.cpms.controller;
 
 import com.example.cpms.dto.ApiResponse;
 import com.example.cpms.dto.LoginRequest;
+import com.example.cpms.dto.LoginResponse;
 import com.example.cpms.dto.RegisterRequest;
 import com.example.cpms.security.JwtUtil;
 import com.example.cpms.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,43 +40,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<JwtResponse>> login(@Valid @RequestBody LoginRequest request) {
-        try {
-            // 1. Load user details by email
-            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-
-            // 2. Check if password matches
-            if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
-                return ResponseEntity.badRequest()
-                        .body(ApiResponse.error("Invalid email or password"));
-            }
-
-            // 3. If credentials are valid, generate JWT token
-            final String jwt = jwtUtil.generateToken(userDetails);
-
-            return ResponseEntity.ok(ApiResponse.success("Login successful", new JwtResponse(jwt)));
-        } catch (UsernameNotFoundException e) {
-            // User not found
-            return ResponseEntity.badRequest()
-                    .body(ApiResponse.error("Invalid email or password"));
-        } catch (Exception e) {
-            // Any other unexpected error
-            System.err.println("Login failed: " + e.getClass().getSimpleName() + " - " + e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(ApiResponse.error("Login failed: " + e.getMessage()));
-        }
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
+        ApiResponse<LoginResponse> apiResponse = userService.login(request);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(apiResponse);
     }
 
-    // Helper class for JWT response
-    public static class JwtResponse {
-        private final String token;
-
-        public JwtResponse(String token) {
-            this.token = token;
-        }
-
-        public String getToken() {
-            return token;
-        }
-    }
 }

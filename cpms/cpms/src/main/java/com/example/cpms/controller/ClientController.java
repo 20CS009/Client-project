@@ -22,7 +22,7 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse<ClientResponseDto>> addClient(
             @Valid @RequestBody ClientRequest request,
             Authentication authentication) {

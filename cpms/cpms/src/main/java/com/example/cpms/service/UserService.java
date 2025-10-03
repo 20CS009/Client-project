@@ -1,19 +1,20 @@
 package com.example.cpms.service;
 
-import com.example.cpms.dto.ApiResponse;
-import com.example.cpms.dto.LoginRequest;
-import com.example.cpms.dto.RegisterRequest;
+import com.example.cpms.dto.*;
 import com.example.cpms.entity.Role;
 import com.example.cpms.entity.UserEntity;
+import com.example.cpms.exception.AccessDeniedException;
+import com.example.cpms.exception.ResourceException;
+import com.example.cpms.exception.ResourceNotFoundException;
 import com.example.cpms.repository.UserRepository;
 import com.example.cpms.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,37 +47,39 @@ public class UserService {
     }
 
 
-    public ApiResponse<JwtResponse> login(LoginRequest request) {
+    public ApiResponse<LoginResponse> login(LoginRequest request) {
         try {
-            // 1. Authenticate user credentials
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-            );
+            Optional<UserEntity> optionalUser = userRepository.findByEmail(request.getEmail());
 
-            // 2. If authentication successful, load user details
-            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+            UserEntity userEntity;
+            if(optionalUser.isPresent()) {
+                userEntity = optionalUser.get();
+            } else {
+                throw new ResourceNotFoundException("User Not Found");
+            }
 
-            // 3. Generate JWT token
-            String jwt = jwtUtil.generateToken(userDetails);
+            boolean isValidaUser = checkUserCredentials(userEntity, request);
+            if (!isValidaUser) {
+                throw new AccessDeniedException("Please check the email address and password are entered wrong");
+            }
 
-            // 4. Return success response with token
-            return ApiResponse.success("Login successful", new JwtResponse(jwt));
+            String emailAddress = userEntity.getEmail();
+            String userName = userEntity.getName();
+
+            String jwt = jwtUtil.generateToken(emailAddress, userName);
+
+            LoginResponse response = new LoginResponse();
+            response.setUserName(userName);
+            response.setEmailAddress(emailAddress);
+            response.setJwtResponse(new JwtResponse(jwt));
+            return ApiResponse.success("Login Successfully", response);
         } catch (Exception e) {
-            // 5. Handle authentication failure
-            return ApiResponse.error("Invalid email or password");
+            throw new ResourceException("Invalid email or password");
         }
     }
 
-
-    public static class JwtResponse {
-        private final String token;
-
-        public JwtResponse(String token) {
-            this.token = token;
-        }
-
-        public String getToken() {
-            return token;
-        }
+    private boolean checkUserCredentials(UserEntity userEntity, LoginRequest request) {
+        return passwordEncoder.matches(request.getPassword(), userEntity.getPassword());
     }
+
 }

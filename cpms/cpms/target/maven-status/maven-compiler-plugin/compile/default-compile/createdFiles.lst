@@ -1,8 +1,10 @@
 com\example\cpms\config\ModelMapperConfig.class
 com\example\cpms\service\UserDetailsServiceImpl.class
+com\example\cpms\dto\LoginResponse.class
 com\example\cpms\repository\ProjectRepository.class
 com\example\cpms\dto\ProjectResponseDto.class
 com\example\cpms\service\ProjectService.class
+com\example\cpms\exception\ResourceException.class
 com\example\cpms\repository\UserRepository.class
 com\example\cpms\entity\ProjectStatus.class
 com\example\cpms\dto\ClientResponseDto.class
@@ -14,11 +16,11 @@ com\example\cpms\entity\Role.class
 com\example\cpms\dto\ApiResponse.class
 com\example\cpms\CpmsApplication.class
 com\example\cpms\dto\ClientRequest.class
-com\example\cpms\service\UserService$JwtResponse.class
 com\example\cpms\dto\RegisterRequest.class
 com\example\cpms\dto\ProjectRequest.class
 com\example\cpms\entity\ClientEntity.class
 com\example\cpms\config\SecurityConfig.class
+com\example\cpms\dto\JwtResponse.class
 com\example\cpms\service\ClientService.class
 com\example\cpms\dto\LoginRequest.class
 com\example\cpms\exception\AccessDeniedException.class
@@ -26,7 +28,6 @@ com\example\cpms\exception\ResourceNotFoundException.class
 com\example\cpms\controller\AuthController.class
 com\example\cpms\entity\ProjectEntity.class
 com\example\cpms\dto\DeleteConfirmationDto.class
-com\example\cpms\controller\AuthController$JwtResponse.class
 com\example\cpms\exception\GlobalExceptionHandler.class
 com\example\cpms\security\JwtAuthFilter.class
 com\example\cpms\repository\ClientRepository.class
