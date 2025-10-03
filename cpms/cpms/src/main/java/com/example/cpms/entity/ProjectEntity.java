@@ -9,8 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "projects")
-@Getter  // ✅ Generates all getters
-@Setter  // ✅ Generates all setters
+@Getter  
+@Setter 
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +34,5 @@ public class ProjectEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
 }
