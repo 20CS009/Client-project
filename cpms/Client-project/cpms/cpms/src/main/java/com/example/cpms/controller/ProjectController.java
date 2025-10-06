@@ -82,9 +82,9 @@
 package com.example.cpms.controller;
 
 import com.example.cpms.dto.ApiResponse;
-import com.example.cpms.dto.DeleteConfirmationDto; // ✅ Import DTO
+import com.example.cpms.dto.DeleteConfirmationDto; // Import DTO
 import com.example.cpms.dto.ProjectRequest;
-import com.example.cpms.dto.ProjectResponseDto; // ✅ Import DTO
+import com.example.cpms.dto.ProjectResponseDto; //  Import DTO
 import com.example.cpms.entity.ProjectEntity;
 import com.example.cpms.entity.UserEntity;
 import com.example.cpms.service.ProjectService;
@@ -104,7 +104,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    // ✅ Change return type from ProjectEntity to ProjectResponseDto
+    // Change return type from ProjectEntity to ProjectResponseDto
     public ResponseEntity<ApiResponse<ProjectResponseDto>> addProject(
             @Valid @RequestBody ProjectRequest request,
             Authentication authentication) {
@@ -114,7 +114,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    // ✅ Change return type from ProjectEntity to ProjectResponseDto
+    // Change return type from ProjectEntity to ProjectResponseDto
     public ResponseEntity<ApiResponse<ProjectResponseDto>> getProjectById(
             @PathVariable Long id,
             Authentication authentication) {
@@ -124,7 +124,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    // ✅ Change return type from ProjectEntity to ProjectResponseDto
+    // Change return type from ProjectEntity to ProjectResponseDto
     public ResponseEntity<ApiResponse<ProjectResponseDto>> updateProject(
             @PathVariable Long id,
             @Valid @RequestBody ProjectRequest request,
@@ -135,7 +135,7 @@ public class ProjectController {
     }
 
     @GetMapping
-    // ✅ Change return type from List<ProjectEntity> to List<ProjectResponseDto>
+    //  Change return type from List<ProjectEntity> to List<ProjectResponseDto>
     public ResponseEntity<ApiResponse<List<ProjectResponseDto>>> getAllProjects(Authentication authentication) {
         UserEntity currentUser = (UserEntity) authentication.getPrincipal();
         ApiResponse<List<ProjectResponseDto>> response = projectService.getAllProjects(currentUser);
@@ -143,7 +143,7 @@ public class ProjectController {
     }
 
     @GetMapping("/client/{clientId}")
-    // ✅ Change return type from List<ProjectEntity> to List<ProjectResponseDto>
+    // Change return type from List<ProjectEntity> to List<ProjectResponseDto>
     public ResponseEntity<ApiResponse<List<ProjectEntity>>> getProjectsByClient(
             @PathVariable Long clientId,
             Authentication authentication) {
@@ -153,7 +153,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    // ✅ Change return type from String to DeleteConfirmationDto
+    //  Change return type from String to DeleteConfirmationDto
     public ResponseEntity<ApiResponse<DeleteConfirmationDto>> deleteProject(
             @PathVariable Long id,
             Authentication authentication) {
@@ -161,4 +161,5 @@ public class ProjectController {
         ApiResponse<DeleteConfirmationDto> response = projectService.deleteProject(id, currentUser);
         return ResponseEntity.ok(response);
     }
+
 }
