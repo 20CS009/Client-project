@@ -65,7 +65,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor  // ✅ Use constructor injection
+@RequiredArgsConstructor  
 public class AuthController {
 
     private final UserService userService;
@@ -113,4 +113,5 @@ public class AuthController {
             return token;
         }
     }
+
 }
