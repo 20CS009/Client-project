@@ -92,7 +92,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    // ✅ Change return type from ClientEntity to ClientResponseDto
+    //  Change return type from ClientEntity to ClientResponseDto
     public ResponseEntity<ApiResponse<ClientResponseDto>> addClient(
             @Valid @RequestBody ClientRequest request,
             Authentication authentication) {
@@ -102,7 +102,7 @@ public class ClientController {
     }
 
     @GetMapping
-    // ✅ Change return type from List<ClientEntity> to List<ClientResponseDto>
+    // Change return type from List<ClientEntity> to List<ClientResponseDto>
     public ResponseEntity<ApiResponse<List<ClientResponseDto>>> getAllClients(Authentication authentication) {
         UserEntity currentUser = (UserEntity) authentication.getPrincipal();
         ApiResponse<List<ClientResponseDto>> response = clientService.getAllClients(currentUser);
@@ -110,7 +110,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    // ✅ Change return type from ClientEntity to ClientResponseDto
+    // Change return type from ClientEntity to ClientResponseDto
     public ResponseEntity<ApiResponse<ClientResponseDto>> getClientById(
             @PathVariable Long id,
             Authentication authentication) {
@@ -120,7 +120,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    // ✅ Change return type from ClientEntity to ClientResponseDto
+    // Change return type from ClientEntity to ClientResponseDto
     public ResponseEntity<ApiResponse<ClientResponseDto>> updateClient(
             @PathVariable Long id,
             @Valid @RequestBody ClientRequest request,
@@ -131,7 +131,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    // ✅ Change return type from String to DeleteConfirmationDto
+    // Change return type from String to DeleteConfirmationDto
     public ResponseEntity<ApiResponse<DeleteConfirmationDto>> deleteClient(
             @PathVariable Long id,
             Authentication authentication) {
@@ -139,4 +139,5 @@ public class ClientController {
         ApiResponse<DeleteConfirmationDto> response = clientService.deleteClient(id, currentUser);
         return ResponseEntity.ok(response);
     }
+
 }
