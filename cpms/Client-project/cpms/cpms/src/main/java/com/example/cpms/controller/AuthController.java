@@ -1,0 +1,58 @@
+package com.example.cpms.controller;
+
+import com.example.cpms.dto.ApiResponse;
+import com.example.cpms.dto.LoginRequest;
+import com.example.cpms.dto.LoginResponse;
+import com.example.cpms.dto.RegisterRequest;
+import com.example.cpms.security.JwtUtil;
+import com.example.cpms.service.UserService;
+import com.example.cpms.dto.UserResponseDto;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+
+//    @PostMapping("/register")
+////    public ResponseEntity<ApiResponse<String>> register(@Valid @RequestBody RegisterRequest request) {
+////        try {
+////            ApiResponse<String> response = userService.register(request);
+////            return ResponseEntity.ok(response);
+////        } catch (Exception e) {
+////            return ResponseEntity.badRequest()
+////                    .body(ApiResponse.error("Registration failed: " + e.getMessage()));
+////        }
+////    }
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<UserResponseDto>> register(@Valid @RequestBody RegisterRequest request) {
+        ApiResponse<UserResponseDto> response = userService.register(request);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
+        ApiResponse<LoginResponse> apiResponse = userService.login(request);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(apiResponse);
+    }
+
+}
+
+
+
